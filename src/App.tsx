@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "./api/users";
 import type { ApiUser, User } from "./types/user";
+import UserTable from "./components/UserTable";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -47,15 +48,7 @@ function App() {
     <div>
       <h1>User Management Dashboard</h1>
 
-      {users.map((user) => (
-        <div key={user.id}>
-          <p>
-            {user.firstName} {user.lastName}
-          </p>
-          <p>{user.email}</p>
-          <p>{user.department}</p>
-        </div>
-      ))}
+      <UserTable users={users} />
     </div>
   );
 }
