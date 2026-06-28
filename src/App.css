@@ -20,9 +20,11 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 button:hover {
+  transform: translateY(-1px);
   opacity: 0.9;
 }
 
@@ -31,17 +33,21 @@ table {
   border-collapse: collapse;
   background: white;
   margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 th {
   background: #2563eb;
   color: white;
-  padding: 12px;
+  padding: 14px;
+  text-align: left;
 }
 
 td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 tr:nth-child(even) {
@@ -65,4 +71,30 @@ form {
 form input {
   flex: 1;
   min-width: 180px;
+}
+
+tbody tr:hover {
+  background-color: #2f3648;
+  transition: background-color 0.2s ease;
+}
+
+table {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+th {
+  background: #2563eb;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 35px;
+  color: #1f2937;
+}
+
+form {
+  margin-bottom: 30px;
 }

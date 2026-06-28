@@ -54,13 +54,16 @@ function UserTable({ users, sortField, sortOrder, onSort, onEdit, onDelete }: Us
               <div
                 style={{
                   display: "flex",
-                  gap: "8px",
+                  gap: "10px",
+                  justifyContent: "center",
                 }}
               >
                 <button
                   style={{
                     background: "#2563eb",
-                    color: "white",
+                    color: "#fff",
+                    borderRadius: "6px",
+                    padding: "8px 12px",
                   }}
                   onClick={() => onEdit(user)}
                 >
@@ -70,7 +73,9 @@ function UserTable({ users, sortField, sortOrder, onSort, onEdit, onDelete }: Us
                 <button
                   style={{
                     background: "#dc2626",
-                    color: "white",
+                    color: "#fff",
+                    borderRadius: "6px",
+                    padding: "8px 12px",
                   }}
                   onClick={() => onDelete(user.id)}
                 >

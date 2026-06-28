@@ -14,7 +14,6 @@ function UserForm({ onAddUser, editingUser, setEditingUser }: UserFormProps) {
     email: "",
     department: "",
   });
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
   if (editingUser) {
     setFormData({
@@ -134,7 +133,14 @@ function UserForm({ onAddUser, editingUser, setEditingUser }: UserFormProps) {
         onChange={handleChange}
       />
 
-      <button type="submit">
+      <button type="submit"
+          style={{
+            background: "#16a34a",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: "6px",
+          }}
+          >
         {editingUser ? "Update User" : "Add User"}
       </button>
     </form>

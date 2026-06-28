@@ -194,11 +194,26 @@ function App() {
     </h1>
 
     {/* Add / Edit Form */}
-    <UserForm
-      onAddUser={handleAddUser}
-      editingUser={editingUser}
-      setEditingUser={setEditingUser}
-    />
+
+    <div 
+      style={{
+        background: "#23252f",
+        padding: "20px",
+        borderRadius: "10px",
+        border: "1px solid #3b3b3b",
+        marginBottom: "25px",
+      }}
+    >
+      <h2 style={{ marginTop: 0 }}>
+        {editingUser ? "Edit User" : "Add User"}
+      </h2>
+        <UserForm
+              onAddUser={handleAddUser}
+              editingUser={editingUser}
+              setEditingUser={setEditingUser}
+            />
+    </div>
+    
 
     {/* Search + Filter */}
     <div
@@ -217,9 +232,10 @@ function App() {
 
       <button
         onClick={() => setShowFilterPopup(true)}
-        style={{
-          padding: "10px 20px",
-          cursor: "pointer",
+         style={{
+          background: "#2563eb",
+          color: "white",
+          padding: "10px 18px",
         }}
       >
         Filters
@@ -244,14 +260,20 @@ function App() {
     />
 
     {/* Pagination */}
-    <div style={{ marginTop: "25px" }}>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        pageSize={pageSize}
-        setCurrentPage={setCurrentPage}
-        setPageSize={setPageSize}
-      />
+    <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: "25px",
+        }}
+      >
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          setCurrentPage={setCurrentPage}
+          setPageSize={setPageSize}
+        />
     </div>
   </div>
 );
