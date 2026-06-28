@@ -5,9 +5,10 @@ interface UserTableProps {
   sortField: keyof User;
   sortOrder: "asc" | "desc";
   onSort: (field: keyof User) => void;
+  onEdit: (user: User) => void;
 }
 
-function UserTable({ users, sortField, sortOrder, onSort }: UserTableProps) {
+function UserTable({ users, sortField, sortOrder, onSort, onEdit }: UserTableProps) {
   return (
     <table
       style={{
@@ -50,7 +51,7 @@ function UserTable({ users, sortField, sortOrder, onSort }: UserTableProps) {
             <td>{user.department}</td>
             <td>
             <div style={{ display: "flex", gap: "8px" }}>
-                <button>Edit</button>
+                <button onClick={() => onEdit(user)}>Edit</button>
                 <button>Delete</button>
             </div>
             </td>

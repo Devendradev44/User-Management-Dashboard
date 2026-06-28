@@ -4,6 +4,8 @@ import type { ApiUser, User } from "./types/user";
 import UserTable from "./components/UserTable";
 import SearchBar from "./components/SearchBar";
 import Pagination from "./components/Pagination";
+import UserForm from "./components/UserForm";
+import { createUser } from "./api/users";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -14,6 +16,7 @@ function App() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
 
   
 
@@ -98,16 +101,49 @@ function App() {
   }
 };
 
+  // const handleAddUser = (user: User) => {
+  //  setUsers((prev) => [user, ...prev]);
+  // };
+  const handleEdit = (user: User) => {
+    setEditingUser(user);
+  };
+
+  const handleAddUser = async (user: User) => {
+    if (editingUser) {
+      setUsers((prev) =>
+        prev.map((u) => (u.id === user.id ? user : u))
+      );
+
+      setEditingUser(null);
+      return;
+    }
+
+    try {
+      await createUser(user);
+
+      setUsers((prev) => [user, ...prev]);
+    } catch {
+      alert("Failed to add user");
+    }
+  };
+
   return (
     <div>
       <h1>User Management Dashboard</h1>
+      <UserForm 
+      onAddUser={handleAddUser}
+      editingUser={editingUser}
+      setEditingUser={setEditingUser}
+      />
       <SearchBar search={search} setSearch={setSearch} />
 
       <UserTable 
       users={paginatedUsers} 
       sortField={sortField} 
       sortOrder={sortOrder} 
-      onSort={handleSort} />
+      onSort={handleSort}
+      onEdit={handleEdit} 
+      />
       <Pagination
       currentPage={currentPage}
       totalPages={totalPages}
@@ -115,6 +151,8 @@ function App() {
       setCurrentPage={setCurrentPage}
       setPageSize={setPageSize}
     />
+    
+
     </div>
   );
 }
