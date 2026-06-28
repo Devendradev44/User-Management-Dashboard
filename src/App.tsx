@@ -7,6 +7,7 @@ import Pagination from "./components/Pagination";
 import UserForm from "./components/UserForm";
 import { createUser } from "./api/users";
 import { deleteUser } from "./api/users";
+import FilterPopup from "./components/FilterPopup";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -18,6 +19,13 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [filters, setFilters] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    department: "",
+  });
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
 
   
 
@@ -58,27 +66,59 @@ function App() {
   if (error) {
     return <h2>{error}</h2>;
   }
+
   const filteredUsers = users
   .filter((user) => {
-    const value = search.toLowerCase();
+    const searchValue = search.toLowerCase();
+
+    const matchesSearch =
+      user.firstName.toLowerCase().includes(searchValue) ||
+      user.lastName.toLowerCase().includes(searchValue) ||
+      user.email.toLowerCase().includes(searchValue);
+
+    const matchesFirstName =
+      filters.firstName === "" ||
+      user.firstName
+        .toLowerCase()
+        .includes(filters.firstName.toLowerCase());
+
+    const matchesLastName =
+      filters.lastName === "" ||
+      user.lastName
+        .toLowerCase()
+        .includes(filters.lastName.toLowerCase());
+
+    const matchesEmail =
+      filters.email === "" ||
+      user.email
+        .toLowerCase()
+        .includes(filters.email.toLowerCase());
+
+    const matchesDepartment =
+      filters.department === "" ||
+      user.department
+        .toLowerCase()
+        .includes(filters.department.toLowerCase());
 
     return (
-      user.firstName.toLowerCase().includes(value) ||
-      user.lastName.toLowerCase().includes(value) ||
-      user.email.toLowerCase().includes(value)
+      matchesSearch &&
+      matchesFirstName &&
+      matchesLastName &&
+      matchesEmail &&
+      matchesDepartment
     );
   })
   .sort((a, b) => {
     const valueA = String(a[sortField]).toLowerCase();
     const valueB = String(b[sortField]).toLowerCase();
 
-    if (sortOrder === "asc") {
-      return valueA.localeCompare(valueB);
-    }
-
-    return valueB.localeCompare(valueA);
+    return sortOrder === "asc"
+      ? valueA.localeCompare(valueB)
+      : valueB.localeCompare(valueA);
   });
-      const totalPages = Math.ceil(filteredUsers.length / pageSize);
+    
+  
+    const totalPages = Math.ceil(filteredUsers.length / pageSize);
 
     const startIndex = (currentPage - 1) * pageSize;
 
@@ -154,6 +194,7 @@ function App() {
       onEdit={handleEdit} 
       onDelete={handleDelete}
       />
+
       <Pagination
       currentPage={currentPage}
       totalPages={totalPages}
@@ -161,8 +202,16 @@ function App() {
       setCurrentPage={setCurrentPage}
       setPageSize={setPageSize}
     />
-    
 
+    <button onClick={() => setShowFilterPopup(true)}>
+      Filters
+    </button>
+      <FilterPopup
+        filters={filters}
+        setFilters={setFilters}
+        show={showFilterPopup}
+        onClose={() => setShowFilterPopup(false)}
+      />
     </div>
   );
 }
