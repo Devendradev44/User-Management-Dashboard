@@ -9,11 +9,12 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [sortField, setSortField] = useState<keyof User>("firstName");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
-
   const fetchUsers = async () => {
     try {
       const data = await getUsers();
@@ -31,12 +32,16 @@ function App() {
       });
 
       setUsers(formattedUsers);
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setError("Failed to fetch users");
     } finally {
       setLoading(false);
     }
   };
+
+  fetchUsers();
+}, []);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -45,22 +50,46 @@ function App() {
   if (error) {
     return <h2>{error}</h2>;
   }
-  const filteredUsers = users.filter((user) => {
-  const value = search.toLowerCase();
+  const filteredUsers = users
+  .filter((user) => {
+    const value = search.toLowerCase();
 
-  return (
-    user.firstName.toLowerCase().includes(value) ||
-    user.lastName.toLowerCase().includes(value) ||
-    user.email.toLowerCase().includes(value)
-  );
-});
+    return (
+      user.firstName.toLowerCase().includes(value) ||
+      user.lastName.toLowerCase().includes(value) ||
+      user.email.toLowerCase().includes(value)
+    );
+  })
+  .sort((a, b) => {
+    const valueA = String(a[sortField]).toLowerCase();
+    const valueB = String(b[sortField]).toLowerCase();
+
+    if (sortOrder === "asc") {
+      return valueA.localeCompare(valueB);
+    }
+
+    return valueB.localeCompare(valueA);
+  });
+
+  const handleSort = (field: keyof User) => {
+  if (field === sortField) {
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  } else {
+    setSortField(field);
+    setSortOrder("asc");
+  }
+};
 
   return (
     <div>
       <h1>User Management Dashboard</h1>
       <SearchBar search={search} setSearch={setSearch} />
 
-      <UserTable users={filteredUsers} />
+      <UserTable 
+      users={filteredUsers} 
+      sortField={sortField} 
+      sortOrder={sortOrder} 
+      onSort={handleSort} />
     </div>
   );
 }

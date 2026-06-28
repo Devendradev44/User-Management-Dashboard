@@ -2,9 +2,12 @@ import type { User } from "../types/user";
 
 interface UserTableProps {
   users: User[];
+  sortField: keyof User;
+  sortOrder: "asc" | "desc";
+  onSort: (field: keyof User) => void;
 }
 
-function UserTable({ users }: UserTableProps) {
+function UserTable({ users, sortField, sortOrder, onSort }: UserTableProps) {
   return (
     <table
       style={{
@@ -14,15 +17,28 @@ function UserTable({ users }: UserTableProps) {
       }}
     >
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Department</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+  <tr>
+    <th>ID</th>
+
+    <th onClick={() => onSort("firstName")} style={{ cursor: "pointer" }}>
+      First Name {sortField === "firstName" && (sortOrder === "asc" ? "↑" : "↓")}
+    </th>
+
+    <th onClick={() => onSort("lastName")} style={{ cursor: "pointer" }}>
+      Last Name {sortField === "lastName" && (sortOrder === "asc" ? "↑" : "↓")}
+    </th>
+
+    <th onClick={() => onSort("email")} style={{ cursor: "pointer" }}>
+      Email {sortField === "email" && (sortOrder === "asc" ? "↑" : "↓")}
+    </th>
+
+    <th onClick={() => onSort("department")} style={{ cursor: "pointer" }}>
+      Department {sortField === "department" && (sortOrder === "asc" ? "↑" : "↓")}
+    </th>
+
+    <th>Actions</th>
+  </tr>
+</thead>
 
       <tbody>
         {users.map((user) => (
