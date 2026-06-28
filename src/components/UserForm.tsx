@@ -14,7 +14,7 @@ function UserForm({ onAddUser, editingUser, setEditingUser }: UserFormProps) {
     email: "",
     department: "",
   });
-
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
   if (editingUser) {
     setFormData({
@@ -34,49 +34,100 @@ function UserForm({ onAddUser, editingUser, setEditingUser }: UserFormProps) {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-      const user: User = {
-        id: editingUser ? editingUser.id : Date.now(),
-        ...formData,
-      };
+  if (!formData.firstName.trim()) {
+    alert("First Name is required");
+    return;
+  }
 
-      onAddUser(user);
+  if (!formData.lastName.trim()) {
+    alert("Last Name is required");
+    return;
+  }
 
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        department: "",
-      });
+  if (!formData.email.trim()) {
+    alert("Email is required");
+    return;
+  }
 
-      setEditingUser(null);
-    };
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(formData.email)) {
+    alert("Please enter a valid email");
+    return;
+  }
+
+  if (!formData.department.trim()) {
+    alert("Department is required");
+    return;
+  }
+
+  const user: User = {
+    id: editingUser ? editingUser.id : Date.now(),
+    ...formData,
+  };
+
+    onAddUser(user);
+
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      department: "",
+    });
+
+    setEditingUser(null);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <form onSubmit={handleSubmit} 
+    style={{
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap",
+    alignItems: "center",
+    marginBottom: "20px",
+  }}
+    >
+      <input style={{
+  width: "220px",
+  padding: "10px",
+  borderRadius: "6px",
+}}
         name="firstName"
         placeholder="First Name"
         value={formData.firstName}
         onChange={handleChange}
       />
 
-      <input
+      <input style={{
+  width: "220px",
+  padding: "10px",
+  borderRadius: "6px",
+}}
         name="lastName"
         placeholder="Last Name"
         value={formData.lastName}
         onChange={handleChange}
       />
 
-      <input
+      <input style={{
+  width: "220px",
+  padding: "10px",
+  borderRadius: "6px",
+}}
         name="email"
         placeholder="Email"
         value={formData.email}
         onChange={handleChange}
       />
 
-      <input
+      <input style={{
+  width: "220px",
+  padding: "10px",
+  borderRadius: "6px",
+}}
         name="department"
         placeholder="Department"
         value={formData.department}

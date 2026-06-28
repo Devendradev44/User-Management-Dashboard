@@ -177,43 +177,84 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>User Management Dashboard</h1>
-      <UserForm 
+  <div
+    style={{
+      maxWidth: "1400px",
+      margin: "0 auto",
+      padding: "30px",
+    }}
+  >
+    <h1
+      style={{
+        textAlign: "center",
+        marginBottom: "30px",
+      }}
+    >
+      User Management Dashboard
+    </h1>
+
+    {/* Add / Edit Form */}
+    <UserForm
       onAddUser={handleAddUser}
       editingUser={editingUser}
       setEditingUser={setEditingUser}
-      />
-      <SearchBar search={search} setSearch={setSearch} />
-
-      <UserTable 
-      users={paginatedUsers} 
-      sortField={sortField} 
-      sortOrder={sortOrder} 
-      onSort={handleSort}
-      onEdit={handleEdit} 
-      onDelete={handleDelete}
-      />
-
-      <Pagination
-      currentPage={currentPage}
-      totalPages={totalPages}
-      pageSize={pageSize}
-      setCurrentPage={setCurrentPage}
-      setPageSize={setPageSize}
     />
 
-    <button onClick={() => setShowFilterPopup(true)}>
-      Filters
-    </button>
-      <FilterPopup
-        filters={filters}
-        setFilters={setFilters}
-        show={showFilterPopup}
-        onClose={() => setShowFilterPopup(false)}
+    {/* Search + Filter */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "20px",
+        gap: "20px",
+      }}
+    >
+      <SearchBar
+        search={search}
+        setSearch={setSearch}
+      />
+
+      <button
+        onClick={() => setShowFilterPopup(true)}
+        style={{
+          padding: "10px 20px",
+          cursor: "pointer",
+        }}
+      >
+        Filters
+      </button>
+    </div>
+
+    <FilterPopup
+      filters={filters}
+      setFilters={setFilters}
+      show={showFilterPopup}
+      onClose={() => setShowFilterPopup(false)}
+    />
+
+    {/* Table */}
+    <UserTable
+      users={paginatedUsers}
+      sortField={sortField}
+      sortOrder={sortOrder}
+      onSort={handleSort}
+      onEdit={handleEdit}
+      onDelete={handleDelete}
+    />
+
+    {/* Pagination */}
+    <div style={{ marginTop: "25px" }}>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pageSize={pageSize}
+        setCurrentPage={setCurrentPage}
+        setPageSize={setPageSize}
       />
     </div>
-  );
+  </div>
+);
 }
 
 export default App;

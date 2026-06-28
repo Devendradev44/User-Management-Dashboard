@@ -51,10 +51,32 @@ function UserTable({ users, sortField, sortOrder, onSort, onEdit, onDelete }: Us
             <td>{user.email}</td>
             <td>{user.department}</td>
             <td>
-            <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={() => onEdit(user)}>Edit</button>
-                <button onClick={() => onDelete(user.id)}>Delete</button>
-            </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "8px",
+                }}
+              >
+                <button
+                  style={{
+                    background: "#2563eb",
+                    color: "white",
+                  }}
+                  onClick={() => onEdit(user)}
+                >
+                  Edit
+                </button>
+
+                <button
+                  style={{
+                    background: "#dc2626",
+                    color: "white",
+                  }}
+                  onClick={() => onDelete(user.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </td>
           </tr>
         ))}

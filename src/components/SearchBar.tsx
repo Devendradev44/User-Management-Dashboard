@@ -8,12 +8,14 @@ function SearchBar({ search, setSearch }: SearchBarProps) {
     <div style={{ marginBottom: "20px" }}>
       <input
         type="text"
-        placeholder="Search by name or email..."
+        placeholder="Search users..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{
-          width: "350px",
-          padding: "10px",
+          width: "400px",
+          maxWidth: "500px",
+          padding: "12px",
+          marginBottom: "20px",
           fontSize: "16px",
           borderRadius: "6px",
           border: "1px solid #ccc",
