@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { getUsers } from "./api/users";
 import type { ApiUser, User } from "./types/user";
 import UserTable from "./components/UserTable";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchUsers();
@@ -43,12 +45,22 @@ function App() {
   if (error) {
     return <h2>{error}</h2>;
   }
+  const filteredUsers = users.filter((user) => {
+  const value = search.toLowerCase();
+
+  return (
+    user.firstName.toLowerCase().includes(value) ||
+    user.lastName.toLowerCase().includes(value) ||
+    user.email.toLowerCase().includes(value)
+  );
+});
 
   return (
     <div>
       <h1>User Management Dashboard</h1>
+      <SearchBar search={search} setSearch={setSearch} />
 
-      <UserTable users={users} />
+      <UserTable users={filteredUsers} />
     </div>
   );
 }
