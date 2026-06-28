@@ -215,6 +215,17 @@ function App() {
     </div>
     
 
+    <h3
+      style={{
+        marginTop: "25px",
+        marginBottom: "15px",
+        textAlign: "left",
+        color: "white", // use "#1f2937" if your theme is light
+      }}
+    >
+      Users
+    </h3>
+
     {/* Search + Filter */}
     <div
       style={{
@@ -222,7 +233,6 @@ function App() {
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: "20px",
-        gap: "20px",
       }}
     >
       <SearchBar
@@ -236,6 +246,7 @@ function App() {
           background: "#2563eb",
           color: "white",
           padding: "10px 18px",
+          borderRadius: "6px",
         }}
       >
         Filters

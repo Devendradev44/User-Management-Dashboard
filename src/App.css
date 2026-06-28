@@ -98,3 +98,7 @@ h1 {
 form {
   margin-bottom: 30px;
 }
+
+th,td{
+  padding: 14px;
+}

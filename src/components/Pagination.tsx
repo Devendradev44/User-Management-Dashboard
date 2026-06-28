@@ -22,7 +22,13 @@ function Pagination({
         alignItems: "center",
       }}
     >
-      <div>
+      <div 
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "20px",
+      }}
+      >
         <button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
@@ -42,7 +48,12 @@ function Pagination({
         </button>
       </div>
 
-      <select
+      <select 
+      style={{
+        marginLeft: "20px",
+        padding: "8px",
+        borderRadius: "6px",
+      }}
         value={pageSize}
         onChange={(e) => {
           setPageSize(Number(e.target.value));
