@@ -6,6 +6,7 @@ import SearchBar from "./components/SearchBar";
 import Pagination from "./components/Pagination";
 import UserForm from "./components/UserForm";
 import { createUser } from "./api/users";
+import { deleteUser } from "./api/users";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -37,12 +38,6 @@ function App() {
         };
       });
 
-    //   const expandedUsers = Array.from({ length: 10 }, (_, index) =>
-    //   formattedUsers.map((user) => ({
-    //     ...user,
-    //     id: user.id + index * formattedUsers.length,
-    //   }))
-    // ).flat();
 
     setUsers(formattedUsers);
     } catch (error) {
@@ -101,9 +96,6 @@ function App() {
   }
 };
 
-  // const handleAddUser = (user: User) => {
-  //  setUsers((prev) => [user, ...prev]);
-  // };
   const handleEdit = (user: User) => {
     setEditingUser(user);
   };
@@ -127,6 +119,23 @@ function App() {
     }
   };
 
+  const handleDelete = async (id: number) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this user?"
+  );
+
+    if (!confirmed) return;
+
+    try {
+      await deleteUser(id);
+
+      setUsers((prev) => prev.filter((user) => user.id !== id));
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete user");
+    }
+  };
+
   return (
     <div>
       <h1>User Management Dashboard</h1>
@@ -143,6 +152,7 @@ function App() {
       sortOrder={sortOrder} 
       onSort={handleSort}
       onEdit={handleEdit} 
+      onDelete={handleDelete}
       />
       <Pagination
       currentPage={currentPage}
