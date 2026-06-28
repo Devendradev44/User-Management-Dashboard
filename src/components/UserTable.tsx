@@ -49,8 +49,10 @@ function UserTable({ users, sortField, sortOrder, onSort }: UserTableProps) {
             <td>{user.email}</td>
             <td>{user.department}</td>
             <td>
-              <button>Edit</button>
-              <button style={{ marginLeft: 10 }}>Delete</button>
+            <div style={{ display: "flex", gap: "8px" }}>
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
             </td>
           </tr>
         ))}

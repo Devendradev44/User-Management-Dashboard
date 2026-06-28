@@ -3,6 +3,7 @@ import { getUsers } from "./api/users";
 import type { ApiUser, User } from "./types/user";
 import UserTable from "./components/UserTable";
 import SearchBar from "./components/SearchBar";
+import Pagination from "./components/Pagination";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -11,6 +12,8 @@ function App() {
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState<keyof User>("firstName");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   
 
@@ -31,7 +34,14 @@ function App() {
         };
       });
 
-      setUsers(formattedUsers);
+    //   const expandedUsers = Array.from({ length: 10 }, (_, index) =>
+    //   formattedUsers.map((user) => ({
+    //     ...user,
+    //     id: user.id + index * formattedUsers.length,
+    //   }))
+    // ).flat();
+
+    setUsers(formattedUsers);
     } catch (error) {
       console.error(error);
       setError("Failed to fetch users");
@@ -70,6 +80,14 @@ function App() {
 
     return valueB.localeCompare(valueA);
   });
+      const totalPages = Math.ceil(filteredUsers.length / pageSize);
+
+    const startIndex = (currentPage - 1) * pageSize;
+
+    const paginatedUsers = filteredUsers.slice(
+      startIndex,
+      startIndex + pageSize
+    );
 
   const handleSort = (field: keyof User) => {
   if (field === sortField) {
@@ -86,10 +104,17 @@ function App() {
       <SearchBar search={search} setSearch={setSearch} />
 
       <UserTable 
-      users={filteredUsers} 
+      users={paginatedUsers} 
       sortField={sortField} 
       sortOrder={sortOrder} 
       onSort={handleSort} />
+      <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      pageSize={pageSize}
+      setCurrentPage={setCurrentPage}
+      setPageSize={setPageSize}
+    />
     </div>
   );
 }
